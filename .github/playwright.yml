@@ -1,0 +1,83 @@
+name: guardian-bedrock-e2e
+
+on:
+  schedule:
+    - cron: '0 */3 * * *'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Use Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '14'
+          cache: 'npm'
+      - run: npm install
+      - run: npm install -D @playwright/test --with-deps
+      - run: npx playwright install
+      - run: npm test
+        env:
+          CI: true
+          TESTACCOUNT_EMAIL: ${{ secrets.TESTACCOUNT_EMAIL }}
+          TESTACCOUNT_PASSWORD: ${{ secrets.TESTACCOUNT_PASSWORD }}
+          TEST_BASE_URL: ${{ secrets.TEST_BASE_URL }}
+          TEST_EXPECT_URL: ${{ secrets.TEST_EXPECT_URL }}
+
+      - uses: actions/upload-artifact@master
+        with:
+          name: allure-results
+          path: allure-results
+          retention-days: 20
+
+      - name: Get Allure history
+        uses: actions/checkout@v2
+        if: always()
+        continue-on-error: true
+        with:
+          ref: gh-pages
+          path: gh-pages
+
+      - name: Persist history for allure
+        uses: simple-elf/allure-report-action@master
+        if: always()
+        id: allure-report
+        with:
+          allure_results: allure-results
+          gh_pages: gh-pages
+          allure_report: allure-report
+          allure_history: allure-history
+          keep_reports: 20
+
+      - name: Deploy report to Github Pages
+        if: always()
+        uses: peaceiris/actions-gh-pages@v2
+        env:
+          PERSONAL_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PUBLISH_BRANCH: gh-pages
+          PUBLISH_DIR: allure-history
+  e2e-tests:
+    runs-on: ubuntu-latest # or macos-latest, windows-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Use Node.js 14
+        uses: actions/setup-node@v2
+        with:
+          node-version: 14
+
+      - name: Install dependencies and run tests
+        run: |
+          npm install
+          npm install -D @playwright/test --with-deps
+          npx playwright install
+          npm run test
+        env:
+          CI: true
+          TESTACCOUNT_EMAIL: ${{ secrets.TESTACCOUNT_EMAIL }}
+          TESTACCOUNT_PASSWORD: ${{ secrets.TESTACCOUNT_PASSWORD }}
+          TEST_BASE_URL: ${{ secrets.TEST_BASE_URL }}
+          TEST_EXPECT_URL: ${{ secrets.TEST_EXPECT_URL }}

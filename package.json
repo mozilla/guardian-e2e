@@ -1,0 +1,35 @@
+{
+  "name": "guardian-integration",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "npx playwright test",
+    "report": "npx playwright show-report",
+    "test:update": "npx playwright test --update-snapshots",
+    "test:debug": "PWDEBUG=1 DEBUG=pw:api npm run test",
+    "test:inspect": "npx playwright test --debug",
+    "test:local": "TEST_ENV=local TEST_BASE_URL='https://vpn.mozilla.org' TEST_EXPECT_URL='https://www.mozilla.org' playwright test",
+    "test:stage": "TEST_ENV=stage TEST_BASE_URL='https://stage-vpn.guardian.nonprod.cloudops.mozgcp.net' TEST_EXPECT_URL='https://www-dev.allizom.org' playwright test",
+    "test:prod": "TEST_ENV=prod TEST_BASE_URL='https://vpn.mozilla.org' TEST_EXPECT_URL='https://www.mozilla.org' playwright test",
+    "test:chrome": "npx playwright test --project=chromium",
+    "test:firefox": "npx playwright test --project=firefox",
+    "test:webkit": "npx playwright test --project=webkit"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@playwright/test": "^1.20.1",
+    "allure-commandline": "^2.17.2",
+    "allure-playwright": "^2.0.0-beta.16"
+  },
+  "dependencies": {
+    "axe-playwright": "^1.1.11",
+    "axios": "^0.27.2",
+    "dotenv": "^16.0.0"
+  },
+  "directories": {
+    "test": "tests"
+  },
+  "description": ""
+}

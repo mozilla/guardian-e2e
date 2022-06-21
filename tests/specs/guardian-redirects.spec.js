@@ -84,7 +84,7 @@ envVariables.forEach((env) => {
             waitUntil: 'networkidle'
           });
 
-          expect(page.url()).toContain('surveygizmo.com');
+          expect(page.url()).toContain('connect.mozilla.org');
         }
       });
 
@@ -196,14 +196,10 @@ envVariables.forEach((env) => {
       test(`Verify redirect for ${baseUrl}/r/vpn/update/windows, C1539669`, async ({
         page
       }) => {
-        const expected =
-          env.TEST_ENV === 'stage'
-            ? `${expectedBaseUrl}/en-US/products/vpn/download/`
-            : `${baseUrl}/vpn/download`;
         await verifyRedirectUrl(
           page,
           `${baseUrl}/r/vpn/update/windows`,
-          expected
+          `${expectedBaseUrl}/en-US/products/vpn/download/`
         );
       });
 

@@ -25,16 +25,12 @@ envVariables.forEach((env) => {
 
     test.describe(`redirects for ${baseUrl} origin`, () => {
       test(`Verify redirect for ${baseUrl}, C1538764`, async ({ page }) => {
-        const givenBaseUrl =
-          env.TEST_ENV === 'stage'
-            ? `${baseUrl}/vpn/invite/success`
-            : `${expectedBaseUrl}/products/vpn`;
-        const givenExpectedUrl =
-          env.TEST_ENV === 'stage'
-            ? `${expectedBaseUrl}/en-US/products/vpn/invite/`
-            : `${expectedBaseUrl}/en-US/products/vpn/`;
-        await verifyRedirectUrl(page, givenBaseUrl, givenExpectedUrl);
-      });
+        const givenBaseUrl = `${expectedBaseUrl}/products/vpn`
+        const givenExpectedUrl = `${expectedBaseUrl}/en-US/products/vpn`
+        
+        await page.goto(givenBaseUrl)
+        expect(page.url()).toContain(givenExpectedUrl)
+      })
 
       test(`Verify redirect for ${baseUrl}/r/vpn/invite, C1539666`, async ({
         page
@@ -64,15 +60,10 @@ envVariables.forEach((env) => {
         await verifyRedirectUrl(page, givenBaseUrl, expectedUrl);
       });
 
-      test(`Verify redirect for ${baseUrl}/r/vpn/subscribe, C1539668`, async ({
-        page
-      }) => {
-        await verifyRedirectUrl(
-          page,
-          `${baseUrl}/r/vpn/subscribe`,
-          `${expectedBaseUrl}/en-US/products/vpn/#pricing`
-        );
-      });
+      test(`Verify redirect for ${baseUrl}/r/vpn/subscribe, C1539668`, async ({ page }) => {        
+        await page.goto(`${baseUrl}/r/vpn/subscribe`, { waitUntil: 'networkidle' })
+        expect(page.url()).toContain(`/?entrypoint_experiment=vpn-coupon-promo-banner`)
+      })
     });
 
     test.describe('Misc redirects', () => {

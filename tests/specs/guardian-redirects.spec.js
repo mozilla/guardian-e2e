@@ -62,7 +62,7 @@ envVariables.forEach((env) => {
 
       test(`Verify redirect for ${baseUrl}/r/vpn/subscribe, C1539668`, async ({ page }) => {        
         await page.goto(`${baseUrl}/r/vpn/subscribe`, { waitUntil: 'networkidle' })
-        expect(page.url()).toContain(`/?entrypoint_experiment=vpn-coupon-promo-banner`)
+        expect(page.url()).toContain('/en-US/products/vpn/')
       })
     });
 

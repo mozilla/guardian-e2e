@@ -7,61 +7,35 @@ on:
   workflow_dispatch:
 
 jobs:
-  build:
+  guardiane2e:
+    name: 'Guardian e2e Tests'
+    timeout-minutes: 60
     runs-on: ubuntu-latest
-
+    container: mcr.microsoft.com/playwright:v1.23.0-focal
     steps:
       - uses: actions/checkout@v2
-      - name: Use Node.js
-        uses: actions/setup-node@v2
+      - uses: actions/setup-node@v2
         with:
-          node-version: '14'
-          cache: 'npm'
-      - run: npm install
-      - run: npm install -D @playwright/test --with-deps
-      - run: npx playwright install
-      - run: npm test
+          node-version: '14.x'
+
+      - name: Install Node dependencies
+        run: npm ci
+
+      - name: Install Playwright Browsers
+        run: npx playwright install --with-deps
+
+      - name: Run Playwright tests
+        run: npm run test:e2e
         env:
-          CI: true
           TESTACCOUNT_EMAIL: ${{ secrets.TESTACCOUNT_EMAIL }}
           TESTACCOUNT_PASSWORD: ${{ secrets.TESTACCOUNT_PASSWORD }}
           TEST_BASE_URL: ${{ secrets.TEST_BASE_URL }}
           TEST_EXPECT_URL: ${{ secrets.TEST_EXPECT_URL }}
 
-      - uses: actions/upload-artifact@master
-        with:
-          name: allure-results
-          path: allure-results
-          retention-days: 20
-
-      - name: Get Allure history
-        uses: actions/checkout@v2
+      - name: Upload html report as artifact to troubleshoot failures.
+        uses: actions/upload-artifact@v2
         if: always()
-        continue-on-error: true
         with:
-          ref: gh-pages
-          path: gh-pages
-
-  e2e-tests:
-    runs-on: ubuntu-latest # or macos-latest, windows-latest
-
-    steps:
-      - uses: actions/checkout@v2
-
-      - name: Use Node.js 14
-        uses: actions/setup-node@v2
-        with:
-          node-version: 14
-
-      - name: Install dependencies and run tests
-        run: |
-          npm install
-          npm install -D @playwright/test --with-deps
-          npx playwright install
-          npm run test
-        env:
-          CI: true
-          TESTACCOUNT_EMAIL: ${{ secrets.TESTACCOUNT_EMAIL }}
-          TESTACCOUNT_PASSWORD: ${{ secrets.TESTACCOUNT_PASSWORD }}
-          TEST_BASE_URL: ${{ secrets.TEST_BASE_URL }}
-          TEST_EXPECT_URL: ${{ secrets.TEST_EXPECT_URL }}
+          name: playwright-report
+          path: playwright-report/
+          retention-days: 30

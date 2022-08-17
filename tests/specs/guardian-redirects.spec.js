@@ -101,14 +101,10 @@ envVariables.forEach((env) => {
           env.TEST_ENV === 'stage'
             ? 'https://accounts.stage.mozaws.net/'
             : 'https://accounts.firefox.com/';
-        const givenExpectedUrl =
-          testInfo.project.use.defaultBrowserType === 'firefox'
-            ? `${expectedUrl}subscriptions/`
-            : `${expectedUrl}`;
         await verifyRedirectUrl(
           page,
           `${baseUrl}/r/vpn/subscription`,
-          givenExpectedUrl
+          expectedUrl
         );
       });
 
@@ -134,12 +130,8 @@ envVariables.forEach((env) => {
 
       test(`Verify redirect for ${baseUrl}/r/vpn/contact, C1539675`, async ({
         page
-      }, testInfo) => {
-        const expectedUrl =
-          testInfo.project.use.defaultBrowserType === 'firefox'
-            ? 'https://accounts.firefox.com/support'
-            : 'https://accounts.firefox.com/';
-        await verifyRedirectUrl(page, `${baseUrl}/r/vpn/contact`, expectedUrl);
+      }) => {
+        await verifyRedirectUrl(page, `${baseUrl}/r/vpn/contact`, 'https://accounts.firefox.com/');
       });
 
       test(`Verify redirect for ${baseUrl}/r/vpn/terms, C1539676`, async ({

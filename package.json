@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "test:e2e": "npx playwright test",
+    "test:e2e": "npx playwright test --retries=1",
+    "test:headed": "npx playwright test --retries=1 --headed",
     "report": "npx playwright show-report",
     "test:update": "npx playwright test --update-snapshots",
     "test:debug": "PWDEBUG=1 DEBUG=pw:api npm run test",

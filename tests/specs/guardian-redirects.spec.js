@@ -95,18 +95,16 @@ envVariables.forEach((env) => {
       });
 
       test(`Verify redirect for ${baseUrl}/r/vpn/subscription, C1539672`, async ({
-        page
-      }, testInfo) => {
+        page,
+      }) => {
         const expectedUrl =
           env.TEST_ENV === 'stage'
             ? 'https://accounts.stage.mozaws.net/'
-            : 'https://accounts.firefox.com/';
-        await verifyRedirectUrl(
-          page,
-          `${baseUrl}/r/vpn/subscription`,
-          expectedUrl
-        );
-      });
+            : 'https://accounts.firefox.com/'
+
+        await page.goto(`${baseUrl}/r/vpn/subscription`, { waitUntil: 'networkidle' });
+        expect(page.url()).toEqual(expectedUrl);
+      })
 
       test(`Verify redirect for ${baseUrl}/r/vpn/support, C1539673`, async ({
         page
@@ -127,12 +125,20 @@ envVariables.forEach((env) => {
           'https://support.mozilla.org/en-US/users/auth?next=%2Fen-US%2Fquestions%2Fnew%2Ffirefox-private-network-vpn%2Fform'
         );
       });
+    
+      test(`Verify redirect for ${baseUrl}/r/vpn/contact, C1539675`, async ({ page }, testInfo) => {
+        const expectedUrl = 'https://accounts.firefox.com/'
 
-      test(`Verify redirect for ${baseUrl}/r/vpn/contact, C1539675`, async ({
-        page
-      }) => {
-        await verifyRedirectUrl(page, `${baseUrl}/r/vpn/contact`, 'https://accounts.firefox.com/');
-      });
+        await page.goto(`${baseUrl}/r/vpn/contact`, { waitUntil: 'networkidle' })
+        await expect.poll(async () => {
+          return page.url()
+            }, {
+              // wait at 2 sec in between
+              intervals: [2_000],
+              // Poll for 10 seconds; defaults to 5 seconds. Pass 0 to disable timeout.
+              timeout: 10000,
+        }).toContain(expectedUrl);
+      })
 
       test(`Verify redirect for ${baseUrl}/r/vpn/terms, C1539676`, async ({
         page

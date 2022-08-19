@@ -103,7 +103,7 @@ envVariables.forEach((env) => {
             : 'https://accounts.firefox.com/'
 
         await page.goto(`${baseUrl}/r/vpn/subscription`, { waitUntil: 'networkidle' });
-        expect(page.url()).toEqual(expectedUrl);
+        expect(page.url()).toContain(expectedUrl);
       })
 
       test(`Verify redirect for ${baseUrl}/r/vpn/support, C1539673`, async ({

@@ -53,6 +53,6 @@ jobs:
 
     runs-on: ubuntu-latest
     steps:
+      uses: actions/deploy-pages@v1
       name: Deploy to Github Pages
       id: deployment
-      uses: actions/deploy-pages@v1

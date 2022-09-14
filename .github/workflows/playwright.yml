@@ -44,7 +44,7 @@ jobs:
     needs: guardiane2e
 
     permissions:
-      page: write
+      pages: write
       id-token: write
 
     environment:

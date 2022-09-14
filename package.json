@@ -3,25 +3,25 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "test:e2e": "npx playwright test --retries=1",
-    "test:headed": "npx playwright test --retries=1 --headed",
-    "report": "npx playwright show-report",
-    "test:update": "npx playwright test --update-snapshots",
+    "test:e2e": "playwright test --retries=1",
+    "test:headed": "playwright test --retries=1 --headed",
+    "report": "playwright show-report",
+    "test:update": " playwright test --update-snapshots",
     "test:debug": "PWDEBUG=1 DEBUG=pw:api npm run test",
-    "test:inspect": "npx playwright test --debug",
+    "test:inspect": "playwright test --debug",
     "test:local": "TEST_ENV=local TEST_BASE_URL='https://vpn.mozilla.org' TEST_EXPECT_URL='https://www.mozilla.org' playwright test",
     "test:stage": "TEST_ENV=stage TEST_BASE_URL='https://stage-vpn.guardian.nonprod.cloudops.mozgcp.net' TEST_EXPECT_URL='https://www-dev.allizom.org' playwright test",
     "test:prod": "TEST_ENV=prod TEST_BASE_URL='https://vpn.mozilla.org' TEST_EXPECT_URL='https://www.mozilla.org' playwright test",
-    "test:chrome": "npx playwright test --project=chromium",
-    "test:firefox": "npx playwright test --project=firefox",
-    "test:webkit": "npx playwright test --project=webkit"
+    "test:chrome": "playwright test --project=chromium",
+    "test:firefox": "playwright test --project=firefox",
+    "test:webkit": "playwright test --project=webkit"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
     "@playwright/test": "^1.24.0",
-"allure-commandline": "^2.17.2",
+    "allure-commandline": "^2.17.2",
     "allure-playwright": "^2.0.0-beta.16"
   },
   "dependencies": {

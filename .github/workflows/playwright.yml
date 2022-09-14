@@ -34,10 +34,25 @@ jobs:
           TEST_BASE_URL: ${{ secrets.TEST_BASE_URL }}
           TEST_EXPECT_URL: ${{ secrets.TEST_EXPECT_URL }}
 
-      - name: Upload html report as artifact to troubleshoot failures.
-        uses: actions/upload-artifact@v2
-        if: always()
+      - uses: actions/upload-artifact@master
         with:
-          name: playwright-report
+          name: github-pages
           path: playwright-report/
-          retention-days: 30
+          retention-days: 20
+
+  publish:
+    needs: guardiane2e
+
+    permissions:
+      page: write
+      id-token: write
+
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    runs-on: ubuntu-latest
+    steps:
+      name: Deploy to Github Pages
+      id: deployment
+      uses: actions/deploy-pages@v1

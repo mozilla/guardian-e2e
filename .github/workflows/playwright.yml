@@ -43,7 +43,7 @@ jobs:
       - name: Generate Artifact
         uses: actions/upload-pages-artifact@v1
         with:
-          path: github-pages          
+          path: playwright-report/         
 
   publish:
     needs: guardiane2e

@@ -40,6 +40,11 @@ jobs:
           path: playwright-report/
           retention-days: 20
 
+      - name: Generate Artifact
+        uses: actions/upload-pages-artifact@v1
+        with:
+          path: github-pages          
+
   publish:
     needs: guardiane2e
 

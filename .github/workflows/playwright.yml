@@ -5,15 +5,25 @@ on:
     - cron: '0 */3 * * *'
 
   workflow_dispatch:
-
+    inputs:
+        environment:
+          description: 'Environment to run the e2e against'
+          required: true
+          default: 'stage'
+          type: choice
+          options:
+          - stage
+          - prod
+          - dev
 jobs:
   guardiane2e:
     name: 'Guardian e2e Tests'
     timeout-minutes: 60
     runs-on: ubuntu-latest    
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v2
+      - name: Check out appropriate artifacts
+        uses: actions/checkout@v2
+        uses: actions/setup-node@v2
         with:
           node-version: '14.x'
           cache: 'npm'
@@ -43,7 +53,10 @@ jobs:
       - name: Generate Artifact
         uses: actions/upload-pages-artifact@v1
         with:
-          path: playwright-report/         
+          path: playwright-report/
+
+      - name: Check env variables
+        run: echo =========== chosen env variable ${{ inputs.environment }}        
 
   publish:
     needs: guardiane2e

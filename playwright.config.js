@@ -46,12 +46,14 @@ const config = {
     actionTimeout: 0,
     /* Base URL to use in actions like `await page.goto('/')`. */
     // baseURL: 'http://localhost:3000',
-
-    // failure behavior
-    screenshot: 'only-on-failure',
+    /* automatically record video on retry  */
+    video: 'retry-with-video',
 
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
-    trace: 'on-first-retry'
+    trace: 'on-first-retry',
+
+    // failure behavior
+    screenshot: 'only-on-failure'
   },
 
   /* Configure projects for major browsers */

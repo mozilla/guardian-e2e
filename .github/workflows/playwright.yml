@@ -6,23 +6,24 @@ on:
 
   workflow_dispatch:
     inputs:
-        environment:
-          description: 'Environment to run the e2e against'
-          required: true
-          default: 'stage'
-          type: choice
-          options:
+      environment:
+        description: 'Environment to run the e2e against'
+        required: true
+        default: 'stage'
+        type: choice
+        options:
           - stage
           - prod
           - dev
+
 jobs:
   guardiane2e:
     name: 'Guardian e2e Tests'
     timeout-minutes: 60
     runs-on: ubuntu-latest    
     steps:
-        uses: actions/checkout@v2
-        uses: actions/setup-node@v2
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
         with:
           node-version: '14.x'
           cache: 'npm'
@@ -49,13 +50,10 @@ jobs:
           path: playwright-report/
           retention-days: 20
 
-      - name: Generate Artifact
+      - name: Generate Artifact for ${{ inputs.environment }}
         uses: actions/upload-pages-artifact@v1
         with:
-          path: playwright-report/
-
-      - name: Check env variables
-        run: echo =========== chosen env variable ${{ inputs.environment }}        
+          path: playwright-report/       
 
   publish:
     needs: guardiane2e

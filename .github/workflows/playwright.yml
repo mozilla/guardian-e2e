@@ -51,6 +51,9 @@ jobs:
           retention-days: 20
 
       - name: Generate Artifact for ${{ inputs.environment != null && inputs.environment || ':stage' }}
+        run: |
+          commandenv=":${{ inputs.environment != null && inputs.environment || 'stage' }}"
+          echo this is an echooooooo ==== npm ----run--- test$commandenv
         uses: actions/upload-pages-artifact@v1
         with:
           path: playwright-report/       

@@ -9,12 +9,12 @@ on:
       environment:
         description: 'Environment to run the e2e against'
         required: true
-        default: 'stage'
+        default: ':stage'
         type: choice
         options:
-          - stage
-          - prod
-          - dev
+          - :stage
+          - :prod
+          - :dev
 
 jobs:
   guardiane2e:
@@ -50,7 +50,7 @@ jobs:
           path: playwright-report/
           retention-days: 20
 
-      - name: Generate Artifact for ${{ inputs.environment != null && ':' + inputs.environment || ':stage' }}
+      - name: Generate Artifact for ${{ inputs.environment != null && inputs.environment || ':stage' }}
         uses: actions/upload-pages-artifact@v1
         with:
           path: playwright-report/       

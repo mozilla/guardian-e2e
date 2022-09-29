@@ -2,7 +2,7 @@ name: guardian-bedrock-e2e
 
 on:
   schedule:
-    - cron: '*/10 * * * *'
+    - cron: '0 8 * * *'
 
   workflow_dispatch:
     inputs:
@@ -54,11 +54,6 @@ jobs:
         uses: actions/upload-pages-artifact@v1
         with:
           path: playwright-report/
-
-      - name: Another Generate Artifact for ${{ inputs.environment != null && inputs.environment || ':stage' }}
-        run: |
-          commandenv=":${{ inputs.environment != null && inputs.environment || 'stage' }}"
-          echo this is an echooooooo ==== npm ----run--- test$commandenv    
 
   publish:
     needs: guardiane2e

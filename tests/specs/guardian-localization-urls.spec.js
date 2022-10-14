@@ -42,7 +42,7 @@ envVariables.forEach((env) => {
               const pricingTables = await page
                 .locator('#pricing .vpn-content-block')
                 .count();
-              expect(pricingTables).toEqual(3);
+              expect(pricingTables).toEqual(2);
 
               const monthPlanPrice = await page
                 .locator('#pricing .vpn-monthly-price-display')

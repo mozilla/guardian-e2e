@@ -79,6 +79,20 @@ envVariables.forEach((env) => {
         }
       });
 
+      test(`Verify redirect for ${baseUrl}/r/vpn/upgradeToPrivacyBundle, C1539670`, async ({
+        page
+      }) => {
+        if (env.TEST_ENV === 'stage') {
+          await page.goto(`${baseUrl}/r/vpn/upgradeToPrivacyBundle`);
+          
+          await expect.poll(async () => {
+            return page.url()
+          }, {
+            intervals: [1_000]
+          }).toContain('?plan=price_');
+        }
+      });
+
       test(`Verify redirect for ${baseUrl}/r/vpn/account, C1539671`, async ({
         page
       }) => {
@@ -146,7 +160,7 @@ envVariables.forEach((env) => {
         await verifyRedirectUrl(
           page,
           `${baseUrl}/r/vpn/terms`,
-          'https://www.mozilla.org/en-US/about/legal/terms/mozilla-vpn/'
+          'https://www.mozilla.org/en-US/about/legal/terms/subscription-services/'
         );
       });
 
@@ -156,7 +170,7 @@ envVariables.forEach((env) => {
         await verifyRedirectUrl(
           page,
           `${baseUrl}/r/vpn/privacy`,
-          'https://www.mozilla.org/en-US/privacy/mozilla-vpn/'
+          'https://www.mozilla.org/en-US/privacy/subscription-services/'
         );
       });
     });

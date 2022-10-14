@@ -5,7 +5,7 @@
   "scripts": {
     "test:e2e": "playwright test --retries=1",
     "test:headed": "playwright test --retries=1 --headed",
-    "report:build": "npx allure generate ./allure-results --clean",    
+    "report:build": "npx allure generate ./allure-results --clean",
     "test:update": " playwright test --update-snapshots",
     "test:debug": "PWDEBUG=1 DEBUG=pw:api npm run test",
     "test:inspect": "playwright test --debug",
@@ -20,7 +20,7 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "@playwright/test": "^1.24.0",
+    "@playwright/test": "^1.27.1",
     "allure-commandline": "^2.18.1",
     "allure-playwright": "^2.0.0-beta.16"
   },

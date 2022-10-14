@@ -52,14 +52,20 @@ jobs:
 
       - uses: actions/upload-artifact@master
         with:
-          name: github-pages
+          name: pw-report
           path: playwright-report/
           retention-days: 20
+
+      - uses: actions/upload-artifact@master
+        with:
+          name: github-pages
+          path: allure-report/
+          retention-days: 30
 
       - name: Generate Artifact for ${{ inputs.environment != null && inputs.environment || ':stage' }}
         uses: actions/upload-pages-artifact@v1
         with:
-          path: playwright-report/
+          path: allure-report/
 
   publish:
     needs: guardiane2e

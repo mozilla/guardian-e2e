@@ -97,92 +97,92 @@ const supportedLocales = [
     lang: 'de',
     geo: 'at',
     name: 'Austria',
-    expectedTermsTitle: 'Mozilla VPN Servicebedingungen',
-    expectedPrivacyTitle: 'Mozilla VPN Datenschutzhinweis'
+    expectedTermsTitle: 'Mozilla Abonnementdienste | Servicebedingungen',
+    expectedPrivacyTitle: 'Mozilla Abonnementdienste'
   }, // currently returns USD instead of EURO
   {
     lang: 'nl',
     geo: 'be',
     name: 'Belgium',
-    expectedTermsTitle: 'Voorwaarden van de Mozilla VPN Terms',
-    expectedPrivacyTitle: 'Mozilla VPN Privacyverklaring'
+    expectedTermsTitle: 'Mozilla Abonnementsservices | Servicevoorwaarden',
+    expectedPrivacyTitle: 'Mozilla Abonnementsservices | Privacyverklaring'
   },
   {
     lang: 'en-US',
     geo: 'ca',
     name: 'Canada',
-    expectedTermsTitle: 'Mozilla VPN Terms of Service',
-    expectedPrivacyTitle: 'Mozilla VPN Privacy Notice'
+    expectedTermsTitle: 'Mozilla Subscription Services',
+    expectedPrivacyTitle: 'Mozilla Subscription Services'
   },
   {
     lang: 'de',
     geo: 'ch',
     name: 'Switzerland',
-    expectedTermsTitle: 'Mozilla VPN Servicebedingungen',
-    expectedPrivacyTitle: 'Mozilla VPN Datenschutzhinweis'
+    expectedTermsTitle: 'Mozilla Abonnementdienste | Servicebedingungen',
+    expectedPrivacyTitle: 'Mozilla Abonnementdienste'
   },
   {
     lang: 'de',
     geo: 'de',
     name: 'Germany',
-    expectedTermsTitle: 'Mozilla VPN Servicebedingungen',
-    expectedPrivacyTitle: 'Mozilla VPN Datenschutzhinweis'
+    expectedTermsTitle: 'Mozilla Abonnementdienste | Servicebedingungen',
+    expectedPrivacyTitle: 'Mozilla Abonnementdienste'
   },
   {
     lang: 'es-US',
     geo: 'es',
     name: 'Spain',
-    expectedTermsTitle: 'Condiciones del servicio de Mozilla VPN',
-    expectedPrivacyTitle: 'Mozilla VPN Aviso de privacidad'
+    expectedTermsTitle: 'Servicios de suscripción de Mozilla',
+    expectedPrivacyTitle: 'Servicios de suscripción de Mozilla'
   },
   {
     lang: 'fr',
     geo: 'fr',
     name: 'France',
-    expectedTermsTitle: 'Mozilla VPN - Conditions d’utilisation',
-    expectedPrivacyTitle: 'Mozilla VPN  - Politique de confidentialité'
+    expectedTermsTitle: 'Services d’abonnements Mozilla - Conditions d’utilisation',
+    expectedPrivacyTitle: 'Services d’abonnement Mozilla'
   },
   {
     lang: 'en-US',
     geo: 'gb',
     name: 'UK',
-    expectedTermsTitle: 'Mozilla VPN Terms of Service',
-    expectedPrivacyTitle: 'Mozilla VPN Privacy Notice'
+    expectedTermsTitle: 'Mozilla Subscription Services',
+    expectedPrivacyTitle: 'Mozilla Subscription Services'
   }, // shouldn't this be in pounds?
   {
     lang: 'it',
     geo: 'it',
     name: 'Italy',
-    expectedTermsTitle: 'Termini di servizio di Mozilla VPN',
-    expectedPrivacyTitle: 'Informativa sulla privacy di Mozilla VPN'
+    expectedTermsTitle: 'Servizi Mozilla in abbonamento | Termini di servizio',
+    expectedPrivacyTitle: 'Servizi Mozilla in abbonamento'
   },
   {
     lang: 'en-US',
     geo: 'my',
     name: 'Malaysia',
-    expectedTermsTitle: 'Mozilla VPN Terms of Service',
-    expectedPrivacyTitle: 'Mozilla VPN Privacy Notice'
+    expectedTermsTitle: 'Mozilla Subscription Services',
+    expectedPrivacyTitle: 'Mozilla Subscription Services'
   },
   {
     lang: 'en-US',
     geo: 'nz',
     name: 'New Zealand',
-    expectedTermsTitle: 'Mozilla VPN Terms of Service',
-    expectedPrivacyTitle: 'Mozilla VPN Privacy Notice'
+    expectedTermsTitle: 'Mozilla Subscription Services',
+    expectedPrivacyTitle: 'Mozilla Subscription Services'
   },
   {
     lang: 'en-US',
     geo: 'sg',
     name: 'Singapore',
-    expectedTermsTitle: 'Mozilla VPN Terms of Service',
-    expectedPrivacyTitle: 'Mozilla VPN Privacy Notice'
+    expectedTermsTitle: 'Mozilla Subscription Services',
+    expectedPrivacyTitle: 'Mozilla Subscription Services'
   },
   {
     lang: 'en-US',
     geo: 'US',
     name: 'United States',
-    expectedTermsTitle: 'Mozilla VPN Terms of Service',
-    expectedPrivacyTitle: 'Mozilla VPN Privacy Notice'
+    expectedTermsTitle: 'Mozilla Subscription Services',
+    expectedPrivacyTitle: 'Mozilla Subscription Services'
   }
 ];
 

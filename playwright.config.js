@@ -36,7 +36,7 @@ const config = {
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
   reporter: [
     ['html'],
-    ['allure-playwright'],
+    // ['allure-playwright'],
     // ['json', {  outputFile: 'test-results.json' }],
     // ['./tests/utils/custom-reporter.js']
   ],

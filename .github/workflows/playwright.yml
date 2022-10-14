@@ -40,7 +40,7 @@ jobs:
           npx playwright install
 
       - name: Run Playwright tests
-        run: npm run test:e2e
+        run: npx playwright test --reporter=line,allure-playwright --retries=2
         env:
           TESTACCOUNT_EMAIL: ${{ secrets.TESTACCOUNT_EMAIL }}
           TESTACCOUNT_PASSWORD: ${{ secrets.TESTACCOUNT_PASSWORD }}

@@ -35,7 +35,7 @@ const config = {
   workers: process.env.CI ? 4 : undefined,
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
   reporter: [
-    ['line'],
+    ['allure-playwright'],
     ['html']
     // ['json', {  outputFile: 'test-results.json' }],
     // ['./tests/utils/custom-reporter.js']

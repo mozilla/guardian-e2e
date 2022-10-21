@@ -40,7 +40,7 @@ jobs:
           npx playwright install
 
       - name: Run Playwright tests
-        run: npx playwright test --reporter=html,line,allure-playwright --retries=2
+        run: npx playwright test --reporter=line,allure-playwright --retries=2
         env:
           TESTACCOUNT_EMAIL: ${{ secrets.TESTACCOUNT_EMAIL }}
           TESTACCOUNT_PASSWORD: ${{ secrets.TESTACCOUNT_PASSWORD }}
@@ -49,12 +49,6 @@ jobs:
 
       - name: Build Allure report
         run: npm run report:build
-
-      - uses: actions/upload-artifact@master
-        with:
-          name: pw-report
-          path: playwright-report/
-          retention-days: 20
 
       - uses: actions/upload-artifact@master
         with:

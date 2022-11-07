@@ -11,6 +11,7 @@ jobs:
     name: 'Guardian e2e Tests'
     timeout-minutes: 60
     runs-on: ubuntu-latest
+    continue-on-error: true
     strategy:
       fail-fast: false
     steps:

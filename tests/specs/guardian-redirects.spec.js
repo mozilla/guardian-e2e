@@ -126,7 +126,7 @@ envVariables.forEach((env) => {
         await verifyRedirectUrl(
           page,
           `${baseUrl}/r/vpn/support`,
-          'https://support.mozilla.org/en-US/users/auth?next=%2Fen-US%2Fquestions%2Fnew%2Ffirefox-private-network-vpn%2Fform'
+          'https://support.mozilla.org/en-US/products/firefox-private-network-vp'
         );
       });
 
@@ -136,7 +136,7 @@ envVariables.forEach((env) => {
         await verifyRedirectUrl(
           page,
           `${baseUrl}/r/vpn/subscriptionBlocked`,
-          'https://support.mozilla.org/en-US/users/auth?next=%2Fen-US%2Fquestions%2Fnew%2Ffirefox-private-network-vpn%2Fform'
+          'https://support.mozilla.org/en-US/products/firefox-private-network-vp'
         );
       });
     

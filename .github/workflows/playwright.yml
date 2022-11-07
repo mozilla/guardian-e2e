@@ -5,22 +5,14 @@ on:
     - cron: '0 8 * * *'
 
   workflow_dispatch:
-    inputs:
-      environment:
-        description: 'Environment to run the e2e against'
-        required: true
-        default: ':stage'
-        type: choice
-        options:
-          - :stage
-          - :prod
-          - :dev
 
 jobs:
   guardiane2e:
     name: 'Guardian e2e Tests'
     timeout-minutes: 60
-    runs-on: ubuntu-latest    
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
@@ -30,7 +22,7 @@ jobs:
 
       - name: Install Node dependencies
         run: |
-          npm ci
+          npm install
           npm i -D allure-playwright
           npm i -D allure-commandline
 
@@ -40,40 +32,41 @@ jobs:
           npx playwright install
 
       - name: Run Playwright tests
-        run: npx playwright test --reporter=line,allure-playwright --retries=2
+        run: npx playwright test --reporter=line,allure-playwright --retires=3
         env:
           TESTACCOUNT_EMAIL: ${{ secrets.TESTACCOUNT_EMAIL }}
           TESTACCOUNT_PASSWORD: ${{ secrets.TESTACCOUNT_PASSWORD }}
           TEST_BASE_URL: ${{ secrets.TEST_BASE_URL }}
-          TEST_EXPECT_URL: ${{ secrets.TEST_EXPECT_URL }}
+          TEST_EXPECT_URL: ${{ secrets.TEST_EXPECT_URL }}      
 
-      - name: Build Allure report
+      - name: generate allure report
         run: npm run report:build
 
       - uses: actions/upload-artifact@master
         with:
-          name: github-pages
-          path: allure-report/
-          retention-days: 30
+          name: allure-report
+          path: allure-report
+          retention-days: 20
 
-      - name: Generate Artifact for ${{ inputs.environment != null && inputs.environment || ':stage' }}
+      - name: upload Artifact
         uses: actions/upload-pages-artifact@v1
         with:
-          path: allure-report/
+          path: allure-report
+          retention-days: 20
 
-  publish:
+  guardiandeploy:
     needs: guardiane2e
 
     permissions:
       pages: write
       id-token: write
-
+    
     environment:
       name: github-pages
-
+      url: ${{ steps.deployment.outputs.page_url }}
+    
     runs-on: ubuntu-latest
     steps:
-      - name: Publish to github pages
+      - name: Deploy to GitHub Pages
+        id: deployment
         uses: actions/deploy-pages@v1
-        with:          
-          artifact_name: github-pages

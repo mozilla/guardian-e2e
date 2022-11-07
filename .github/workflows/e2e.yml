@@ -32,7 +32,7 @@ jobs:
           npx playwright install
 
       - name: Run Playwright tests
-        run: npx playwright test --reporter=line,allure-playwright --retires=3
+        run: npx playwright test --reporter=line,allure-playwright --retries=3
         env:
           TESTACCOUNT_EMAIL: ${{ secrets.TESTACCOUNT_EMAIL }}
           TESTACCOUNT_PASSWORD: ${{ secrets.TESTACCOUNT_PASSWORD }}

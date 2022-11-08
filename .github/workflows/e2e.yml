@@ -12,6 +12,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: Get history file from gh-pages branch
+        continue-on-error: true
         run: |
           git pull
           git checkout gh-pages
@@ -79,6 +80,7 @@ jobs:
           ls allure-report/history
           ls allure-results
           rm -rf allure-results/history
+          echo "============================================================================"
           mv allure-report/history allure-results
           ls allure-results
           ls allure-report/history

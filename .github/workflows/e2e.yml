@@ -61,7 +61,7 @@ jobs:
 
       - name: Run Playwright tests
         continue-on-error: true
-        run: npx playwright test tests/specs/guardian-localization-urls.spec.js --reporter=line,allure-playwright
+        run: npx playwright test --reporter=line,allure-playwright
         env:
           TESTACCOUNT_EMAIL: ${{ secrets.TESTACCOUNT_EMAIL }}
           TESTACCOUNT_PASSWORD: ${{ secrets.TESTACCOUNT_PASSWORD }}

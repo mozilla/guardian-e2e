@@ -123,8 +123,8 @@ envVariables.forEach((env) => {
       test(`Verify redirect for ${baseUrl}/r/vpn/support, C1539673`, async ({
         page
       }) => {
+        const prodRes = 'products/firefox-private-network-vpn'
         const stageRes = 'products/firefox-private-network-vpn'
-        const prodRes = 'users/auth?next=%2Fen-US%2Fquestions%2Fnew%2Ffirefox-private-network-vpn%2Fform'
 
         await verifyRedirectUrl(
           page,
@@ -137,12 +137,12 @@ envVariables.forEach((env) => {
         page
       }) => {
         const prodRes = 'products/firefox-private-network-vpn'
-        const stageRes = 'users/auth?next=%2Fen-US%2Fquestions%2Fnew%2Ffirefox-private-network-vpn%2Fform'
+        const stageRes = 'products/firefox-private-network-vpn'
 
         await verifyRedirectUrl(
           page,
           `${baseUrl}/r/vpn/subscriptionBlocked`,
-          `https://support.mozilla.org/en-US/${env.TEST_ENV === 'stage' ? prodRes : stageRes}`
+          `https://support.mozilla.org/en-US/${env.TEST_ENV === 'stage' ? stageRes : prodRes}`
         );
       });
     

@@ -1,4 +1,4 @@
-const envVariables = [
+const testScenarios = [
   {
     TEST_ENV: 'stage',
     TEST_BASE_URL: 'https://stage-vpn.guardian.nonprod.cloudops.mozgcp.net',
@@ -16,5 +16,5 @@ const envVariables = [
 ];
 
 module.exports = {
-  envVariables
+  testScenarios
 };

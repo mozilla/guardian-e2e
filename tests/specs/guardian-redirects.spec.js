@@ -2,28 +2,28 @@ const { test, expect } = require('@playwright/test');
 const { verifyRedirectUrl } = require('../utils/helpers');
 const { allure } = require('allure-playwright');
 const { getRequest } = require('../utils/helpers');
-const { envVariables } = require('../fixtures/envVariables');
+const { testScenarios } = require('../fixtures/scenarios');
 
 let GuardianSpecs;
 let ProductDetails;
 test.describe.configure({ mode: 'parallel' });
 
-envVariables.forEach((env) => {
-  const baseUrl = env.TEST_BASE_URL;
-  const expectedBaseUrl = env.TEST_EXPECT_URL;
+testScenarios.forEach((scenario) => {
+  const baseUrl = scenario.TEST_BASE_URL;
+  const expectedBaseUrl = scenario.TEST_EXPECT_URL;
 
-  test.describe(`${env.TEST_ENV} - guardian redirects`, () => {
+  test.describe(`${scenario.TEST_ENV} - guardian redirects`, () => {
     test.beforeAll(async () => {
-      const _guardian_specs_res = await getRequest(`${env.TEST_BASE_URL}/__version__`);
+      const _guardian_specs_res = await getRequest(`${scenario.TEST_BASE_URL}/__version__`);
       GuardianSpecs = _guardian_specs_res;
 
-      const _product_details_res = await getRequest(env.PRODUCT_DETAILS_URL);
+      const _product_details_res = await getRequest(scenario.PRODUCT_DETAILS_URL);
       ProductDetails = _product_details_res;
     });
 
     test.beforeEach(async () => {
       allure.suite(
-        `${env.TEST_ENV} - Version: ${GuardianSpecs.version}, Commit: ${GuardianSpecs.commit}`
+        `${scenario.TEST_ENV} - Version: ${GuardianSpecs.version}, Commit: ${GuardianSpecs.commit}`
       );
     });
 
@@ -39,7 +39,7 @@ envVariables.forEach((env) => {
       test(`Verify redirect for ${baseUrl}/r/vpn/invite, C1539666`, async ({
         page
       }) => {
-        if (env.TEST_ENV === 'prod') {
+        if (scenario.TEST_ENV === 'prod') {
           await verifyRedirectUrl(
             page,
             `${baseUrl}/vpn/invite`,
@@ -52,12 +52,12 @@ envVariables.forEach((env) => {
         page
       }) => {
         const givenBaseUrl =
-          env.TEST_ENV === 'stage'
+          scenario.TEST_ENV === 'stage'
             ? `${baseUrl}/vpn/invite/success`
             : `${baseUrl}/r/vpn/invite/success`;
 
         const expectedUrl =
-          env.TEST_ENV === 'stage'
+          scenario.TEST_ENV === 'stage'
             ? `${expectedBaseUrl}/en-US/products/vpn/invite/`
             : `${baseUrl}/r/vpn/invite/success`;
 
@@ -74,7 +74,7 @@ envVariables.forEach((env) => {
       test(`Verify redirect for ${baseUrl}/r/vpn/client/feedback, C1539670`, async ({
         page
       }) => {
-        if (env.TEST_ENV === 'prod') {
+        if (scenario.TEST_ENV === 'prod') {
           await page.goto(`${baseUrl}/r/vpn/client/feedback`, {
             waitUntil: 'networkidle'
           });
@@ -86,7 +86,7 @@ envVariables.forEach((env) => {
       test(`Verify redirect for ${baseUrl}/r/vpn/upgradeToPrivacyBundle, C1539670`, async ({
         page
       }) => {
-        if (env.TEST_ENV === 'stage') {
+        if (scenario.TEST_ENV === 'stage') {
           await page.goto(`${baseUrl}/r/vpn/upgradeToPrivacyBundle`);
 
           await expect.poll(async () => {
@@ -101,7 +101,7 @@ envVariables.forEach((env) => {
         page
       }) => {
         const givenExpectedUrl =
-          env.TEST_ENV === 'stage'
+          scenario.TEST_ENV === 'stage'
             ? 'https://accounts.stage.mozaws.net/'
             : 'https://accounts.firefox.com/';
 
@@ -116,7 +116,7 @@ envVariables.forEach((env) => {
         page,
       }) => {
         const expectedUrl =
-          env.TEST_ENV === 'stage'
+          scenario.TEST_ENV === 'stage'
             ? 'https://accounts.stage.mozaws.net/'
             : 'https://accounts.firefox.com/'
 
@@ -133,7 +133,7 @@ envVariables.forEach((env) => {
         await verifyRedirectUrl(
           page,
           `${baseUrl}/r/vpn/support`,
-          `https://support.mozilla.org/en-US/${env.TEST_ENV === 'stage' ? stageRes : prodRes}`
+          `https://support.mozilla.org/en-US/${scenario.TEST_ENV === 'stage' ? stageRes : prodRes}`
         );
       });
 
@@ -146,7 +146,7 @@ envVariables.forEach((env) => {
         await verifyRedirectUrl(
           page,
           `${baseUrl}/r/vpn/subscriptionBlocked`,
-          `https://support.mozilla.org/en-US/${env.TEST_ENV === 'stage' ? stageRes : prodRes}`
+          `https://support.mozilla.org/en-US/${scenario.TEST_ENV === 'stage' ? stageRes : prodRes}`
         );
       });
 

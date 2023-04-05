@@ -35,3 +35,7 @@ jobs:
       - name: Run Playwright tests
         continue-on-error: true
         run: npx playwright test --reporter=line
+
+      - name: Report failure to Sentry
+        if: failure()
+        run: npm run sentry:alert

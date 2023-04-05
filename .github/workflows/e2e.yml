@@ -7,11 +7,13 @@ on:
   workflow_dispatch:
 
 jobs:
-  guardianprep:
+  prep:
     name: Setup
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - name: Checkout
+        uses: actions/checkout@v3
+
       - name: Get history file from gh-pages branch
         continue-on-error: true
         run: |
@@ -19,13 +21,15 @@ jobs:
           git checkout gh-pages
           git pull
 
-      - uses: actions/upload-artifact@master
+      - name: Setup upload artifact (existing report)
+        uses: actions/upload-artifact@master
         with:
           name: allure-report
           path: allure-report
           retention-days: 20
 
-      - uses: actions/upload-artifact@master
+      - name: Setup upload artifact (new report) (What is this used for?)
+        uses: actions/upload-artifact@master
         with:
           name: new-allure-report
           path: allure-report
@@ -34,17 +38,20 @@ jobs:
       - name: Back to main branch
         run: git checkout main
 
-  guardiane2e:
-    needs: guardianprep
-    name: 'Guardian e2e Tests'
+  run_tests:
+    needs: prep
+    name: 'Run Guardian e2e Tests'
     timeout-minutes: 60
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
 
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Setup node
+        uses: actions/setup-node@v3
         with:
           node-version: '16'
           cache: 'npm'
@@ -64,13 +71,14 @@ jobs:
         continue-on-error: true
         run: npx playwright test --reporter=line,allure-playwright
 
-      - uses: actions/download-artifact@v2
+      - name: Get existing artifact
+        uses: actions/download-artifact@v2
         continue-on-error: true
         with:
           name: allure-report
           path: allure-report
 
-      - name: move history to results
+      - name: Move history to results
         continue-on-error: true
         run: |
           ls allure-report/history
@@ -81,16 +89,16 @@ jobs:
           ls allure-results
           ls allure-report/history
 
-      - name: generate allure report
+      - name: Generate allure report
         run: npm run report:build
 
-      - name: upload Artifact
+      - name: Upload Artifact
         uses: actions/upload-pages-artifact@v1
         with:
           path: allure-report
           retention-days: 20
 
-      - name: push report to gh branch
+      - name: Push report to gh branch
         run: |
           git switch -c gh-pages
           git config --global user.email "rokafor@mozilla.com"
@@ -99,9 +107,9 @@ jobs:
           git commit -m "Automated Update"
           git push -u origin gh-pages -f
 
-  guardiandeploy:
+  publish:
     name: Publish
-    needs: guardiane2e
+    needs: run_tests
 
     permissions:
       pages: write

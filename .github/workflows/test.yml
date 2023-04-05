@@ -33,11 +33,4 @@ jobs:
           npx playwright install
 
       - name: Run tests
-        id: run_tests
-        run: npx playwright test --reporter=line -x
-
-      - name: Report failure to Sentry
-        if: steps.run_tests.outcome == 'failure'
-        run: npm run sentry:alert
-        env:
-          SENTRY_DSN: ${{ secrets.SENTRY_DSN }}
+        run: npx playwright test --reporter=line

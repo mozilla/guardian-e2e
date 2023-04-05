@@ -61,8 +61,15 @@ jobs:
           npx playwright install
 
       - name: Run Playwright tests
+        id: run_tests
         continue-on-error: true
         run: npx playwright test --reporter=line,allure-playwright
+
+      - name: Report failure to Sentry
+        if: steps.run_tests.outcome == 'failure'
+        run: npm run sentry:alert
+        env:
+          SENTRY_DSN: ${{ secrets.SENTRY_DSN }}
 
       - uses: actions/download-artifact@v2
         continue-on-error: true

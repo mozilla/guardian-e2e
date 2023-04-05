@@ -46,8 +46,8 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: '16'
-          cache: 'npm' 
-          
+          cache: 'npm'
+
       - name: Install Node dependencies
         run: |
           npm install
@@ -62,11 +62,6 @@ jobs:
       - name: Run Playwright tests
         continue-on-error: true
         run: npx playwright test --reporter=line,allure-playwright
-        env:
-          TESTACCOUNT_EMAIL: ${{ secrets.TESTACCOUNT_EMAIL }}
-          TESTACCOUNT_PASSWORD: ${{ secrets.TESTACCOUNT_PASSWORD }}
-          TEST_BASE_URL: ${{ secrets.TEST_BASE_URL }}
-          TEST_EXPECT_URL: ${{ secrets.TEST_EXPECT_URL }}
 
       - uses: actions/download-artifact@v2
         continue-on-error: true
@@ -86,7 +81,7 @@ jobs:
           ls allure-report/history
 
       - name: generate allure report
-        run: npm run report:build      
+        run: npm run report:build
 
       - name: upload Artifact
         uses: actions/upload-pages-artifact@v1
@@ -109,11 +104,11 @@ jobs:
     permissions:
       pages: write
       id-token: write
-    
+
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
-    
+
     runs-on: ubuntu-latest
     steps:
       - name: Deploy to GitHub Pages

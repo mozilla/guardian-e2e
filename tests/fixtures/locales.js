@@ -81,14 +81,14 @@ const supportedLocalesWithCurrency = [
     geo: 'sg',
     name: 'Singapore',
     expect: 'US$4.99/month + tax',
-    stageExpect: 'US$4.99/month + tax'
+    stageExpect: 'US$4.99/month'
   },
   {
     lang: 'en-US',
     geo: 'US',
     name: 'United States',
     expect: 'US$4.99/month + tax',
-    stageExpect: 'US$4.99/month'
+    stageExpect: 'US$4.99/month + tax'
   }
 ];
 

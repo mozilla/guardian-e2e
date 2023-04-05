@@ -32,6 +32,5 @@ jobs:
         run: |
           npx playwright install
 
-      - name: Run Playwright tests
-        continue-on-error: true
+      - name: Run tests
         run: npx playwright test --reporter=line

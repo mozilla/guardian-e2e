@@ -39,3 +39,5 @@ jobs:
       - name: Report failure to Sentry
         if: failure()
         run: npm run sentry:alert
+        env:
+          SENTRY_DSN: ${{ secrets.SENTRY_DSN }}

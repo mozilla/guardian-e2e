@@ -202,7 +202,7 @@ testScenarios.forEach((scenario) => {
         await verifyRedirectUrl(
           page,
           `${baseUrl}/r/vpn/download/windows`,
-          `${env.PACKAGE_ARCHIVE_URL_BASE}/releases/${ProductDetails.latest.WINDOWS}/windows/MozillaVPN.msi`
+          `${scenario.PACKAGE_ARCHIVE_URL_BASE}/releases/${ProductDetails.latest.WINDOWS}/windows/MozillaVPN.msi`
         );
       });
 

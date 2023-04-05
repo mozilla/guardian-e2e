@@ -32,12 +32,13 @@ jobs:
         run: |
           npx playwright install
 
-      - name: Run Playwright tests
+      - name: Run tests
+        id: run_tests
         continue-on-error: true
         run: npx playwright test --reporter=line -x
 
       - name: Report failure to Sentry
-        if: failure()
+        if: steps.run_tests.outcome == 'failure'
         run: npm run sentry:alert
         env:
           SENTRY_DSN: ${{ secrets.SENTRY_DSN }}

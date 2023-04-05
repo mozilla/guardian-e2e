@@ -2,17 +2,17 @@ const { test, expect } = require('@playwright/test');
 const { supportedLocales } = require('../fixtures/locales');
 const { allure } = require('allure-playwright');
 const { getRequest } = require('../utils/helpers');
-const { envVariables } = require('../fixtures/envVariables');
+const { testScenarios } = require('../fixtures/scenarios');
 
 let GuardianSpecs;
 test.describe.configure({ mode: 'parallel' });
 
-envVariables.forEach((env) => {
-  const baseUrl = env.TEST_EXPECT_URL;
+testScenarios.forEach((scenario) => {
+  const baseUrl = scenario.TEST_EXPECT_URL;
 
-  test.describe(`guardian basics ${env.TEST_ENV} - terms, C1538755`, () => {
+  test.describe(`guardian basics ${scenario.TEST_ENV} - terms, C1538755`, () => {
     test.beforeAll(async () => {
-      const _res = await getRequest(`${env.TEST_BASE_URL}/__version__`);
+      const _res = await getRequest(`${scenario.TEST_BASE_URL}/__version__`);
       GuardianSpecs = _res;
     });
 
@@ -20,7 +20,7 @@ envVariables.forEach((env) => {
       test.describe(`terms locale check for ${locale.name}`, () => {
         test.beforeEach(async ({ page }) => {
           allure.suite(
-            `${env.TEST_ENV} - Version: ${GuardianSpecs.version}, Commit: ${GuardianSpecs.commit}`
+            `${scenario.TEST_ENV} - Version: ${GuardianSpecs.version}, Commit: ${GuardianSpecs.commit}`
           );
           await page.goto(
             `${baseUrl}/${locale.lang}/products/vpn/?geo=${locale.geo}`,

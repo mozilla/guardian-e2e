@@ -5,6 +5,7 @@ const { getRequest } = require('../utils/helpers');
 const { envVariables } = require('../fixtures/envVariables');
 
 let GuardianSpecs;
+let ProductDetails;
 test.describe.configure({ mode: 'parallel' });
 
 envVariables.forEach((env) => {
@@ -13,8 +14,11 @@ envVariables.forEach((env) => {
 
   test.describe(`${env.TEST_ENV} - guardian redirects`, () => {
     test.beforeAll(async () => {
-      const _res = await getRequest(`${env.TEST_BASE_URL}/__version__`);
-      GuardianSpecs = _res;
+      const _guardian_specs_res = await getRequest(`${env.TEST_BASE_URL}/__version__`);
+      GuardianSpecs = _guardian_specs_res;
+
+      const _product_details_res = await getRequest(env.PRODUCT_DETAILS_URL);
+      ProductDetails = _product_details_res;
     });
 
     test.beforeEach(async () => {
@@ -27,7 +31,7 @@ envVariables.forEach((env) => {
       test(`Verify redirect for ${baseUrl}, C1538764`, async ({ page }) => {
         const givenBaseUrl = `${expectedBaseUrl}/products/vpn`
         const givenExpectedUrl = `${expectedBaseUrl}/en-US/products/vpn`
-        
+
         await page.goto(givenBaseUrl)
         expect(page.url()).toContain(givenExpectedUrl)
       })
@@ -60,7 +64,7 @@ envVariables.forEach((env) => {
         await verifyRedirectUrl(page, givenBaseUrl, expectedUrl);
       });
 
-      test(`Verify redirect for ${baseUrl}/r/vpn/subscribe, C1539668`, async ({ page }) => {        
+      test(`Verify redirect for ${baseUrl}/r/vpn/subscribe, C1539668`, async ({ page }) => {
         await page.goto(`${baseUrl}/r/vpn/subscribe`, { waitUntil: 'networkidle' })
         expect(page.url()).toContain('/en-US/products/vpn/')
       })
@@ -84,7 +88,7 @@ envVariables.forEach((env) => {
       }) => {
         if (env.TEST_ENV === 'stage') {
           await page.goto(`${baseUrl}/r/vpn/upgradeToPrivacyBundle`);
-          
+
           await expect.poll(async () => {
             return page.url()
           }, {
@@ -145,7 +149,7 @@ envVariables.forEach((env) => {
           `https://support.mozilla.org/en-US/${env.TEST_ENV === 'stage' ? stageRes : prodRes}`
         );
       });
-    
+
       test(`Verify redirect for ${baseUrl}/r/vpn/contact, C1539675`, async ({ page }, testInfo) => {
         const expectedUrl = 'https://accounts.firefox.com/'
 
@@ -189,6 +193,16 @@ envVariables.forEach((env) => {
           page,
           `${baseUrl}/r/vpn/download/linux`,
           'https://support.mozilla.org/en-US/kb/how-install-mozilla-vpn-linux-computer'
+        );
+      });
+
+      test(`Verify redirect for ${baseUrl}/r/vpn/download/windows, C1539669`, async ({
+        page
+      }) => {
+        await verifyRedirectUrl(
+          page,
+          `${baseUrl}/r/vpn/download/windows`,
+          `${env.PACKAGE_ARCHIVE_URL_BASE}/releases/${ProductDetails.latest.WINDOWS}/windows/MozillaVPN.msi`
         );
       });
 

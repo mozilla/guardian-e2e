@@ -16,7 +16,6 @@ let urlForScenario = function(scenario, locale) {
   return urlString;
 }
 
-
 testScenarios.forEach((scenario) => {
   /**
     * C1538754 - Verify that 3 subscriptions plans are displayed

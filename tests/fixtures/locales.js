@@ -35,11 +35,11 @@ const supportedLocalesWithCurrency = [
     stageExpect: '4,99 €/Monat'
   },
   {
-    lang: 'es-US',
+    lang: 'es-ES',
     geo: 'es',
     name: 'Spain',
     expect: 'US$4.99/mes + impuestos',
-    stageExpect: '4,99 €/month'  // WTF?
+    stageExpect: '4,99 €/mes'
   },
   {
     lang: 'fr',
@@ -54,7 +54,7 @@ const supportedLocalesWithCurrency = [
     name: 'UK',
     expect: 'US$4.99/month + tax',
     stageExpect: 'US$4.99/month'
-  }, // shouldn't this be in pounds?
+  },
   {
     lang: 'it',
     geo: 'it',

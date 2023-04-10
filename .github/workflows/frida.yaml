@@ -1,4 +1,4 @@
-name: Test
+name: Frida Test
 on:
   push:
     branches:
@@ -9,8 +9,7 @@ on:
       - main
 jobs:
   test:
-    name: 'Guardian e2e Tests'
-    timeout-minutes: 20
+    name: Frida Test   
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false

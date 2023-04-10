@@ -7,7 +7,7 @@ const { testScenarios } = require('../fixtures/scenarios');
 let GuardianSpecs;
 test.describe.configure({ mode: 'parallel' });
 
-let urlForScenario = function(scenario, locale) {
+let urlForScenarioAndRegion = function(scenario, locale) {
   let baseURL = scenario.TEST_EXPECT_URL;
   let urlString = `${baseURL}/${locale.lang}/products/vpn/`;
   if (scenario.TEST_ENV === "stage") {
@@ -25,10 +25,10 @@ testScenarios.forEach((scenario) => {
     *
     * These tests make assertions about the values of localized strings in
     * various regions and locales. It is important to note that on stage, it is
-    * possible to simulate the experience a user will have in a different
-    * region by setting the `geo` URL query parameter. For the purpose of these
-    * tests, this affects the currency displayed to the user, while the locale
-    * (set in the URL itself) changes the displayed language.
+    * possible to simulate the page a user will see in a different region by
+    * setting the `geo` URL query parameter. For the purpose of these tests,
+    * this affects the currency displayed to the user, while the locale (set in
+    * the URL itself) changes the displayed language.
     *
     * Setting the `geo` parameter has no effect on production (see
     * https://github.com/mozilla/bedrock/issues/12967#issuecomment-1498694421)
@@ -48,14 +48,14 @@ testScenarios.forEach((scenario) => {
 
       for (const locale of supportedLocalesWithCurrency) {
         test.describe(
-          `${locale.name} - ${urlForScenario(scenario, locale)}`,
+          `${locale.name} - ${urlForScenarioAndRegion(scenario, locale)}`,
           () => {
             test.beforeEach(async ({ page }) => {
               allure.suite(
                 `${scenario.TEST_ENV} - Version: ${GuardianSpecs.version}, Commit: ${GuardianSpecs.commit}`
               );
               await page.goto(
-                urlForScenario(scenario, locale),
+                urlForScenarioAndRegion(scenario, locale),
                 {
                   waitUntil: 'networkidle'
                 }

@@ -7,11 +7,38 @@ const { testScenarios } = require('../fixtures/scenarios');
 let GuardianSpecs;
 test.describe.configure({ mode: 'parallel' });
 
-testScenarios.forEach((scenario) => {
-  const baseURL = scenario.TEST_EXPECT_URL;
+let urlForScenario = function(scenario, locale) {
+  let baseURL = scenario.TEST_EXPECT_URL;
+  let urlString = `${baseURL}/${locale.lang}/products/vpn/`;
+  if (scenario.TEST_ENV === "stage") {
+    urlString += `?geo=${locale.geo}`;
+  }
+  return urlString;
+}
 
-  // C1538754 - Verify that 3 subscriptions plans are displayed correctly in VPN homepage for each of the new regions
-  // C1601703 -  Verify that pricing and currency are displayed correctly in VPN homepage for each of the new regions
+
+testScenarios.forEach((scenario) => {
+  /**
+    * C1538754 - Verify that 3 subscriptions plans are displayed
+    *            correctly in VPN homepage for each of the new regions
+    * C1601703 - Verify that pricing and currency are displayed
+    *            correctly in VPN homepage for each of the new regions
+    *
+    * These tests make assertions about the values of localized strings in
+    * various regions and locales. It is important to note that on stage, it is
+    * possible to simulate the experience a user will have in a different
+    * region by setting the `geo` URL query parameter. For the purpose of these
+    * tests, this affects the currency displayed to the user, while the locale
+    * (set in the URL itself) changes the displayed language.
+    *
+    * Setting the `geo` parameter has no effect on production (see
+    * https://github.com/mozilla/bedrock/issues/12967#issuecomment-1498694421)
+    * and therefore it is only possible to test the variation of locale in
+    * prod. The currency value that is rendered in prod is determined by the
+    * physical location in which the tests are carried out. Since these tests
+    * run on a US server in CI, this is what the production currency is set to.
+    *
+    */
   test.describe(
     `${scenario.TEST_ENV} - guardian localization by urls, C1538754, C1601703`,
     () => {
@@ -22,14 +49,14 @@ testScenarios.forEach((scenario) => {
 
       for (const locale of supportedLocalesWithCurrency) {
         test.describe(
-          `${locale.name} - ${baseURL}/${locale.lang}/products/vpn/?geo=${locale.geo}`,
+          `${locale.name} - ${urlForScenario(scenario, locale)}`,
           () => {
             test.beforeEach(async ({ page }) => {
               allure.suite(
                 `${scenario.TEST_ENV} - Version: ${GuardianSpecs.version}, Commit: ${GuardianSpecs.commit}`
               );
               await page.goto(
-                `${baseURL}/${locale.lang}/products/vpn/?geo=${locale.geo}`,
+                urlForScenario(scenario, locale),
                 {
                   waitUntil: 'networkidle'
                 }

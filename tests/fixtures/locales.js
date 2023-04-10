@@ -5,7 +5,7 @@ const supportedLocalesWithCurrency = [
     name: 'Austria',
     expect: 'US$4.99/Monat zzgl. Steuern',
     stageExpect: '4,99 €/Monat'
-  }, // currently returns USD instead of EURO
+  },
   {
     lang: 'nl',
     geo: 'be',

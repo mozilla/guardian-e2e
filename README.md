@@ -1,6 +1,6 @@
 # guardian-e2e
+
 [![Tests on main](https://github.com/mozilla/guardian-e2e/actions/workflows/pr_or_main_test_run.yml/badge.svg)](https://github.com/mozilla/guardian-e2e/actions/workflows/pr_or_main_test_run.yml)
-[![Scheduled Tests](https://github.com/mozilla/guardian-e2e/actions/workflows/e2e.yml/badge.svg)](https://github.com/mozilla/guardian-e2e/actions/workflows/e2e.yml)
 
 End-to-end tests for the Guardian repository.
 

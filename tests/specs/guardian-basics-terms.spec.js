@@ -10,7 +10,6 @@ test.describe.configure({ mode: 'parallel' });
 testScenarios.forEach((scenario) => {
   const baseUrl = scenario.TEST_EXPECT_URL;
 
-
   test.describe(`guardian basics ${scenario.TEST_ENV} - terms, C1538755`, () => {
     test.beforeAll(async () => {
       const _res = await getRequest(`${scenario.TEST_BASE_URL}/__version__`);

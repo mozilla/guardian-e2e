@@ -7,10 +7,6 @@ const { testScenarios } = require('../fixtures/scenarios');
 let GuardianSpecs;
 test.describe.configure({ mode: 'parallel' });
 
-test(`expected failure`, () => {
-  expect(true).toBe(false);
-});
-
 testScenarios.forEach((scenario) => {
   const baseUrl = scenario.TEST_EXPECT_URL;
 

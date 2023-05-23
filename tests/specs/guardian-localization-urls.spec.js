@@ -65,10 +65,6 @@ testScenarios.forEach((scenario) => {
             test(`Verify locale handling in ${locale.name}`, async ({
               page
             }) => {
-              test.fail(
-                scenario.TEST_ENV === "stage" && locale.lang === "es-ES",
-                "waiting on resolution for https://pontoon.mozilla.org/es-ES/mozillaorg/en/products/vpn/shared.ftl/?string=222533"
-              );
               const pricingTables = await page
                 .locator('#pricing .vpn-content-block')
                 .count();

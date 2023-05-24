@@ -4,23 +4,12 @@ const axios = require('axios');
 const verifyUrl = async (page, expectedUrl) =>
   expect(page.url()).toEqual(expectedUrl);
 
-// TODO doc
 const verifyRedirectUrl = async (base, expected, options) => {
-  options = Object.assign({
-    followRedirects: false,
-  }, options);
+  options = Object.assign({ status: 200 }, options);
 
   let redirectResult;
-  if (options.followRedirects === true) {
-    options = Object.assign({ status: 302 }, options);
-    redirectResult = await axios.get(base, { maxRedirects: 0, validateStatus: null });
-    expect(redirectResult.headers.location).toEqual(expected);
-  } else {
-    options = Object.assign({ status: 200 }, options);
-    redirectResult = await axios.get(base, { validateStatus: null });
-    expect(redirectResult.request.res.responseUrl).toEqual(expected);
-  }
-
+  redirectResult = await axios.get(base, { validateStatus: null, responseType: 'headers' });
+  expect(redirectResult.request.res.responseUrl).toEqual(expected);
   expect(redirectResult.status).toEqual(options.status);
 };
 

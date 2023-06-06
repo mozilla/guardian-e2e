@@ -4,13 +4,16 @@ const axios = require('axios');
 const verifyUrl = async (page, expectedUrl) =>
   expect(page.url()).toEqual(expectedUrl);
 
-const verifyRedirectUrl = async (page, baseUrl, expectedUrl) => {
-  await page.goto(baseUrl, { waitUntil: 'networkidle' });
-  expect(page.url()).toEqual(expectedUrl);
+const verifyRedirectUrl = async (base, expected, options) => {
+  const parsedOptions = { ...options, status: 200 };
+
+  const redirectResult = await axios.get(base, { validateStatus: null, responseType: 'headers' });
+  expect(redirectResult.request.res.responseUrl).toEqual(expected);
+  expect(redirectResult.status).toEqual(parsedOptions.status);
 };
 
 const delay = (timeInMilliSeconds) =>
-  new Promise(function (resolve) {
+  new Promise(function(resolve) {
     setTimeout(resolve, timeInMilliSeconds);
   });
 

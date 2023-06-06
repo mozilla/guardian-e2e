@@ -5,7 +5,7 @@ const verifyUrl = async (page, expectedUrl) =>
   expect(page.url()).toEqual(expectedUrl);
 
 const verifyRedirectUrl = async (base, expected, options) => {
-  options = Object.assign({ status: 200 }, options);
+  const parsedOptions = { ...options, status: 200 };
 
   let redirectResult;
   redirectResult = await axios.get(base, { validateStatus: null, responseType: 'headers' });

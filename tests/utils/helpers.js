@@ -7,8 +7,7 @@ const verifyUrl = async (page, expectedUrl) =>
 const verifyRedirectUrl = async (base, expected, options) => {
   const parsedOptions = { ...options, status: 200 };
 
-  let redirectResult;
-  redirectResult = await axios.get(base, { validateStatus: null, responseType: 'headers' });
+  const redirectResult = await axios.get(base, { validateStatus: null, responseType: 'headers' });
   expect(redirectResult.request.res.responseUrl).toEqual(expected);
   expect(redirectResult.status).toEqual(options.status);
 };

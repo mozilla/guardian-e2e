@@ -4,23 +4,24 @@ const { allure } = require('allure-playwright');
 const { getRequest } = require('../utils/helpers');
 const { testScenarios } = require('../fixtures/scenarios');
 
-let GuardianSpecs;
 test.describe.configure({ mode: 'parallel' });
 
 testScenarios.forEach((scenario) => {
   const baseUrl = scenario.TEST_EXPECT_URL;
 
   test.describe(`guardian basics ${scenario.TEST_ENV} - terms, C1538755`, () => {
+    let guardianSpecs;
+
     test.beforeAll(async () => {
       const _res = await getRequest(`${scenario.TEST_BASE_URL}/__version__`);
-      GuardianSpecs = _res;
+      guardianSpecs = _res;
     });
 
     for (const locale of supportedLocales) {
       test.describe(`terms locale check for ${locale.name}`, () => {
         test.beforeEach(async ({ page }) => {
           allure.suite(
-            `${scenario.TEST_ENV} - Version: ${GuardianSpecs.version}, Commit: ${GuardianSpecs.commit}`
+            `${scenario.TEST_ENV} - Version: ${guardianSpecs.version}, Commit: ${guardianSpecs.commit}`
           );
           await page.goto(
             `${baseUrl}/${locale.lang}/products/vpn/?geo=${locale.geo}`,

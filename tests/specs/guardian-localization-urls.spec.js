@@ -4,10 +4,9 @@ const { allure } = require('allure-playwright');
 const { getRequest } = require('../utils/helpers');
 const { testScenarios } = require('../fixtures/scenarios');
 
-let GuardianSpecs;
 test.describe.configure({ mode: 'parallel' });
 
-let urlForScenarioAndRegion = function(scenario, locale) {
+const urlForScenarioAndRegion = function(scenario, locale) {
   let baseURL = scenario.TEST_EXPECT_URL;
   let urlString = `${baseURL}/${locale.lang}/products/vpn/`;
   if (scenario.TEST_ENV === "stage") {
@@ -41,9 +40,11 @@ testScenarios.forEach((scenario) => {
   test.describe(
     `${scenario.TEST_ENV} - guardian localization by urls, C1538754, C1601703`,
     () => {
+      let guardianSpecs;
+
       test.beforeAll(async () => {
         const _res = await getRequest(`${scenario.TEST_BASE_URL}/__version__`);
-        GuardianSpecs = _res;
+        guardianSpecs = _res;
       });
 
       for (const locale of supportedLocalesWithCurrency) {
@@ -52,7 +53,7 @@ testScenarios.forEach((scenario) => {
           () => {
             test.beforeEach(async ({ page }) => {
               allure.suite(
-                `${scenario.TEST_ENV} - Version: ${GuardianSpecs.version}, Commit: ${GuardianSpecs.commit}`
+                `${scenario.TEST_ENV} - Version: ${guardianSpecs.version}, Commit: ${guardianSpecs.commit}`
               );
               await page.goto(
                 urlForScenarioAndRegion(scenario, locale),

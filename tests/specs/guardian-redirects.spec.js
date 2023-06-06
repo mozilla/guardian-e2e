@@ -4,8 +4,6 @@ const { allure } = require('allure-playwright');
 const { getRequest } = require('../utils/helpers');
 const { testScenarios } = require('../fixtures/scenarios');
 
-let GuardianSpecs;
-let ProductDetails;
 test.describe.configure({ mode: 'parallel' });
 
 testScenarios.forEach((scenario) => {
@@ -13,17 +11,20 @@ testScenarios.forEach((scenario) => {
   const expectedBaseUrl = scenario.TEST_EXPECT_URL;
 
   test.describe(`${scenario.TEST_ENV} - guardian redirects`, () => {
+    let guardianSpecs;
+    let productDetails;
+
     test.beforeAll(async () => {
       const _guardian_specs_res = await getRequest(`${scenario.TEST_BASE_URL}/__version__`);
-      GuardianSpecs = _guardian_specs_res;
+      guardianSpecs = _guardian_specs_res;
 
       const _product_details_res = await getRequest(scenario.PRODUCT_DETAILS_URL);
-      ProductDetails = _product_details_res;
+      productDetails = _product_details_res;
     });
 
     test.beforeEach(async () => {
       allure.suite(
-        `${scenario.TEST_ENV} - Version: ${GuardianSpecs.version}, Commit: ${GuardianSpecs.commit}`
+        `${scenario.TEST_ENV} - Version: ${guardianSpecs.version}, Commit: ${guardianSpecs.commit}`
       );
     });
 
@@ -169,14 +170,14 @@ testScenarios.forEach((scenario) => {
       test(`Verify redirect for ${baseUrl}/r/vpn/download/windows, C1539669`, async () => {
         await verifyRedirectUrl(
           `${baseUrl}/r/vpn/download/windows`,
-          `${scenario.PACKAGE_ARCHIVE_URL_BASE}/releases/${ProductDetails.latest.WINDOWS}/windows/MozillaVPN.msi`
+          `${scenario.PACKAGE_ARCHIVE_URL_BASE}/releases/${productDetails.latest.WINDOWS}/windows/MozillaVPN.msi`
         );
       });
 
       test(`Verify redirect for ${baseUrl}/r/vpn/download/macos, C1539669`, async () => {
         await verifyRedirectUrl(
           `${baseUrl}/r/vpn/download/macos`,
-          `${scenario.PACKAGE_ARCHIVE_URL_BASE}/releases/${ProductDetails.latest.MACOS}/mac/MozillaVPN.pkg`
+          `${scenario.PACKAGE_ARCHIVE_URL_BASE}/releases/${productDetails.latest.MACOS}/mac/MozillaVPN.pkg`
         );
       });
 

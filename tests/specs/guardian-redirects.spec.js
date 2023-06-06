@@ -5,6 +5,7 @@ const { getRequest } = require('../utils/helpers');
 const { testScenarios } = require('../fixtures/scenarios');
 
 let GuardianSpecs;
+let ProductDetails;
 test.describe.configure({ mode: 'parallel' });
 
 testScenarios.forEach((scenario) => {
@@ -13,8 +14,11 @@ testScenarios.forEach((scenario) => {
 
   test.describe(`${scenario.TEST_ENV} - guardian redirects`, () => {
     test.beforeAll(async () => {
-      const _res = await getRequest(`${scenario.TEST_BASE_URL}/__version__`);
-      GuardianSpecs = _res;
+      const _guardian_specs_res = await getRequest(`${scenario.TEST_BASE_URL}/__version__`);
+      GuardianSpecs = _guardian_specs_res;
+
+      const _product_details_res = await getRequest(scenario.PRODUCT_DETAILS_URL);
+      ProductDetails = _product_details_res;
     });
 
     test.beforeEach(async () => {
@@ -159,6 +163,20 @@ testScenarios.forEach((scenario) => {
         await verifyRedirectUrl(
           `${baseUrl}/r/vpn/download/linux`,
           'https://support.mozilla.org/en-US/kb/how-install-mozilla-vpn-linux-computer'
+        );
+      });
+
+      test(`Verify redirect for ${baseUrl}/r/vpn/download/windows, C1539669`, async () => {
+        await verifyRedirectUrl(
+          `${baseUrl}/r/vpn/download/windows`,
+          `${scenario.PACKAGE_ARCHIVE_URL_BASE}/releases/${ProductDetails.latest.WINDOWS}/windows/MozillaVPN.msi`
+        );
+      });
+
+      test(`Verify redirect for ${baseUrl}/r/vpn/download/macos, C1539669`, async () => {
+        await verifyRedirectUrl(
+          `${baseUrl}/r/vpn/download/macos`,
+          `${scenario.PACKAGE_ARCHIVE_URL_BASE}/releases/${ProductDetails.latest.MACOS}/mac/MozillaVPN.pkg`
         );
       });
 

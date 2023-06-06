@@ -4,7 +4,6 @@ const { allure } = require('allure-playwright');
 const { getRequest } = require('../utils/helpers');
 const { testScenarios } = require('../fixtures/scenarios');
 
-let GuardianSpecs;
 test.describe.configure({ mode: 'parallel' });
 
 testScenarios.forEach((scenario) => {
@@ -12,9 +11,11 @@ testScenarios.forEach((scenario) => {
 
   // C1538755 - Verify that PN and TOS are translated for each one of the new regions
   test.describe(`${scenario.TEST_ENV} - guardian basics - privacy, C1538755`, () => {
+    let guardianSpecs;
+
     test.beforeAll(async () => {
       const _res = await getRequest(`${scenario.TEST_BASE_URL}/__version__`);
-      GuardianSpecs = _res;
+      guardianSpecs = _res;
     });
 
     test.use({ viewport: { width: 1980, height: 1080 } });
@@ -22,7 +23,7 @@ testScenarios.forEach((scenario) => {
       test.describe('Checking locales for different langs and geos', () => {
         test.beforeEach(async ({ page }) => {
           allure.suite(
-            `${scenario.TEST_ENV} - Version: ${GuardianSpecs.version}, Commit: ${GuardianSpecs.commit}`
+            `${scenario.TEST_ENV} - Version: ${guardianSpecs.version}, Commit: ${guardianSpecs.commit}`
           );
           await page.goto(
             `${baseUrl}/${locale.lang}/products/vpn/?geo=${locale.geo}`,

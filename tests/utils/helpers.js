@@ -9,7 +9,7 @@ const verifyRedirectUrl = async (base, expected, options) => {
 
   const redirectResult = await axios.get(base, { validateStatus: null, responseType: 'headers' });
   expect(redirectResult.request.res.responseUrl).toEqual(expected);
-  expect(redirectResult.status).toEqual(options.status);
+  expect(redirectResult.status).toEqual(parsedOptions.status);
 };
 
 const delay = (timeInMilliSeconds) =>

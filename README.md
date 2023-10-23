@@ -10,7 +10,7 @@ Also contains tests for some non-Guardian elements that are the responsibility o
 
 1. `npm install`
 1. `npx playwright install`
-1. `npm run test:e2e`
+1. `npm run test`
 
 ## Sentry
 

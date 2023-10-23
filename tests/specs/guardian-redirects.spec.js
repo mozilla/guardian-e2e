@@ -198,7 +198,7 @@ testScenarios.forEach((scenario) => {
       test(`Verify redirect for ${baseUrl}/r/vpn/update/ios, C1539669`, async () => {
         await verifyRedirectUrl(
           `${baseUrl}/r/vpn/update/ios`,
-          'https://apps.apple.com/us/app/firefox-private-network-vpn/id1489407738'
+          'https://apps.apple.com/us/app/mozilla-vpn-secure-private/id1489407738'
         );
       });
 

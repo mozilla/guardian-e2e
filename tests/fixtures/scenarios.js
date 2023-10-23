@@ -1,7 +1,7 @@
 const testScenarios = [
   {
     TEST_ENV: 'stage',
-    TEST_BASE_URL: 'https://stage-vpn.guardian.nonprod.cloudops.mozgcp.net',
+    TEST_BASE_URL: 'https://stage.guardian.nonprod.cloudops.mozgcp.net',
     TEST_EXPECT_URL: 'https://www-dev.allizom.org',
     PRODUCT_DETAILS_URL: 'https://mozilla.github.io/mozillavpn-product-details/mozillavpn.json',
     PACKAGE_ARCHIVE_URL_BASE: 'https://archive.mozilla.org/pub/vpn',

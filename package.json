@@ -4,7 +4,7 @@
   "main": "index.js",
   "scripts": {
     "sentry:alert": "node send-failure-to-sentry.js",
-    "test:e2e": "playwright test --retries=1",
+    "test": "playwright test --retries=1",
     "test:headed": "playwright test --retries=1 --headed",
     "report:build": "npx allure generate ./allure-results --clean",
     "test:update": " playwright test --update-snapshots",
@@ -28,7 +28,7 @@
   "dependencies": {
     "@sentry/node": "^7.47.0",
     "axe-playwright": "^1.1.11",
-    "axios": "^0.27.2",
+    "axios": "^1.5.1",
     "dotenv": "^16.0.0"
   },
   "directories": {
